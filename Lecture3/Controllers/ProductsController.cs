@@ -56,10 +56,10 @@ namespace Lecture3.Controllers
             return View(product);
         }
 
-
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var product = await _repoProduct.GetAsync(id);
+            return View(product);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -67,7 +67,7 @@ namespace Lecture3.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _repoProduct.GetAsync(id);
-            _repoProduct.Delete(product);
+            await _repoProduct.DeleteAsyn(product);
             await _repoProduct.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
